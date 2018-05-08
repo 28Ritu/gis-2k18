@@ -51,15 +51,9 @@ public class ChallengesFragment extends android.support.v4.app.Fragment {
 
 
         challengeList = new ArrayList<Challenge>();
-       /* challengeList.add(new Challenge("Copy Layout"));
-        challengeList.add(new Challenge("Clone layour"));
-        challengeList.add(new Challenge("Tab Layout"));
-        challengeList.add(new Challenge("Some Challenge"));*/
+
        readChallengesFirebase();
 
-
-       /*challengesAdapter = new ChallengesListAdapter (getContext(), challengeList);
-        challengeRecyclerView.setAdapter(challengesAdapter);*/
         return rootView;
     }
 
@@ -67,7 +61,7 @@ public class ChallengesFragment extends android.support.v4.app.Fragment {
     void  readChallengesFirebase(){
 
         mFirebaseDatabase = FirebaseDatabase.getInstance(Constants.DATABASE_URL);
-        mFirebaseDatabaseReference = mFirebaseDatabase.getReference("challenges");
+        mFirebaseDatabaseReference = mFirebaseDatabase.getReference("challenges").child("challenge_list");
         mFirebaseDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

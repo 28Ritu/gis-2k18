@@ -36,7 +36,7 @@ public class ChallengesListAdapter extends RecyclerView.Adapter<ChallengesListAd
     @Override
     public void onBindViewHolder(final ChallengesListAdapter.ChallengesCardViewHolder holder, int position) {
         final Challenge listItem = mListItems.get(position);
-        holder.challengeNameTextView.setText(listItem.getAuthorNameChallenge());
+        holder.challengeNameTextView.setText(listItem.getChallenge_name());
         // holder.projectImageView.setImageResource(listItem.getPlaceHolderImage());
     }
 
@@ -58,7 +58,9 @@ public class ChallengesListAdapter extends RecyclerView.Adapter<ChallengesListAd
                 @Override
                 public void onClick(View view) {
                     Context context = view.getContext();
+                    int position = getAdapterPosition();
                     Intent intent = new Intent(context, ChallengesDetails.class);
+                    intent.putExtra("child",mListItems.get(position).getChallenge_name());
                     context.startActivity(intent);
                 }
             });

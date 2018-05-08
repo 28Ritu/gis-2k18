@@ -10,9 +10,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.udacity.googleindiascholarships.R;
 import com.udacity.googleindiascholarships.challenges.entities.Challenge;
 import com.udacity.googleindiascholarships.challenges.ui.adapter.ChallengesAdapter;
+import com.udacity.googleindiascholarships.challenges.ui.adapter.ChallengesListAdapter;
+import com.udacity.googleindiascholarships.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -21,7 +28,10 @@ public class ChallengesDetails extends AppCompatActivity {
 
     RecyclerView challengeRecyclerView;
     ArrayList<Challenge> challengeList;
-
+    FirebaseDatabase mFirebaseDatabase;
+    DatabaseReference mFirebaseDatabaseReference;
+    ChallengesAdapter challengesAdapter;
+    String child;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +45,13 @@ public class ChallengesDetails extends AppCompatActivity {
 
         challengeRecyclerView = findViewById(R.id.challenge_names_list_recyclerView);
         challengeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        child = getIntent().getStringExtra("child");
 
 
         challengeList = new ArrayList<Challenge>();
-        challengeList.add(new Challenge("Copy Layout"));
-        challengeList.add(new Challenge("Clone layour"));
-        challengeList.add(new Challenge("Tab Layout"));
-        challengeList.add(new Challenge("Some Challenge"));
+        readChallengesFirebase(child);
 
-        ChallengesAdapter challengesAdapter = new ChallengesAdapter(getApplicationContext(), challengeList);
-        challengeRecyclerView.setAdapter(challengesAdapter);
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -67,6 +74,35 @@ public class ChallengesDetails extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    void  readChallengesFirebase(String child){
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance(Constants.DATABASE_URL);
+        mFirebaseDatabaseReference = mFirebaseDatabase.getReference("challenges").child(child);
+        mFirebaseDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                challengeList.clear();
+                for(DataSnapshot projectSnapshot : dataSnapshot.getChildren()){
+
+                    Challenge challenge = projectSnapshot.getValue(Challenge.class);
+                    challengeList.add(challenge);
+
+                }
+
+                challengesAdapter = new ChallengesAdapter(getApplicationContext(), challengeList);
+                challengeRecyclerView.setAdapter(challengesAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
 }

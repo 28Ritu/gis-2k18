@@ -6,12 +6,9 @@ import java.util.ArrayList;
 
 public class Challenge {
     private String challenge_name;
-    private String authorNameChallenge;
-    private String imageUploadChallenge;
-    private String descriptionChallenge;
-    private String gitHubLinkChallenge;
-    private Image imageAuthor;
-    private int placholderImage;
+   private String challenge_author;
+    private String challenge_description;
+    private String challenge_github_url;
     ArrayList<String> list_challenge_submissions;
 
 
@@ -20,42 +17,35 @@ public class Challenge {
     }
 
 
-    public Challenge(String challenge_name, ArrayList<String> list_challenge_submissions){
+
+
+
+
+   public Challenge(String challenge_name){
         this.challenge_name = challenge_name;
-        this.list_challenge_submissions = list_challenge_submissions;
+   }
 
+   public Challenge(String challenge_author,String challenge_description,String challenge_github_url){
+        this.challenge_author = challenge_author;
+        this.challenge_description = challenge_description;
+        this.challenge_github_url = challenge_github_url;
+
+   }
+
+    public String getChallenge_author() {
+        return challenge_author;
     }
 
-    public ArrayList<String> getList_challenge_submissions() {
-        return list_challenge_submissions;
+    public String getChallenge_description() {
+        return challenge_description;
     }
 
-    public Challenge(String authorNameChallenge) {
-        this.authorNameChallenge = authorNameChallenge;
-    }
-
-
-    public String getAuthorNameChallenge() {
-        return authorNameChallenge;
+    public String getChallenge_github_url() {
+        return challenge_github_url;
     }
 
     public String getChallenge_name() {
         return challenge_name;
     }
 
-    public String getDescriptionChallenge() {
-        return descriptionChallenge;
-    }
-
-    public String getGitHubLinkChallenge() {
-        return gitHubLinkChallenge;
-    }
-
-    public String getImageUploadChallenge() {
-        return imageUploadChallenge;
-    }
-
-    public Image getImageAuthor() {
-        return imageAuthor;
-    }
 }
